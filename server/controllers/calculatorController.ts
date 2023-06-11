@@ -2,8 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import expressionSchema from "../models/expressionModel";
+import { Interface } from "readline";
 const Parser = require('expr-eval').Parser;
 dotenv.config();
+
+export interface TypedRequestBody<T> extends Express.Request {
+    body: T
+}
 
 const uri: string = process.env.URI!;
 
@@ -13,9 +18,10 @@ mongoose.connection.once('open', () => {
     console.log('Connected to Mongoose Succesfully')
 });
 
-interface Calculator  {
-    returnExpressions(req: Request, res: Response, next: NextFunction): void;
-    evaluateExpression(req: Request, res: Response, next: NextFunction): void;
+interface Calculator {
+    returnExpressions(req: Request, res: Response, next: NextFunction): Promise<void>;
+    evaluateExpression(req: TypedRequestBody<{ expression: string, variables: object}>, res: Response, next: NextFunction): Promise<void>;
+
 }
 
 const calculatorController: Calculator = {
