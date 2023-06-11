@@ -15,7 +15,7 @@ app.use('/api', calculatorRouter)
 
 // Urls that do not exist will hit this 
 app.use('*', (req: Request, res: Response) => {
-    res.status(404).send(`The url of ${req.originalUrl} does not exist`)
+    res.status(404).json(`The url of ${req.originalUrl} does not exist`)
   });
 
 // Error Handling
