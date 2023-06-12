@@ -25,6 +25,7 @@ interface Calculator {
 }
 
 const calculatorController: Calculator = {
+    //Request data from the backend
     async returnExpressions(req, res, next) {
         try {
             const dbData = await expressionSchema.find();
@@ -38,6 +39,7 @@ const calculatorController: Calculator = {
 
     },
 
+    //Save new expressions to the backend
     async evaluateExpression (req, res, next) {
         try {
             // The body will have a math expression and a variable key

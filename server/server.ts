@@ -11,9 +11,10 @@ const PORT: string = process.env.PORT!;
 // app.use(cors({ origin: true }));
 app.use(express.json());
 
+// All api urls will be sent to the calculator router
 app.use('/api', calculatorRouter)
 
-// Urls that do not exist will hit this 
+// Urls that do not exist will hit this (/api/*)
 app.use('*', (req: Request, res: Response) => {
     res.status(404).json(`The url of ${req.originalUrl} does not exist`)
   });
