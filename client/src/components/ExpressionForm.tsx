@@ -57,10 +57,19 @@ const ExpressionForm = () => {
   };
 
   // Modifies the expression to a format that can be parsed
+  /* We could merge all these expressions together. I think that will
+  make the code harder to read and maintain, so I kept it this way
+  */
   const modifyExpressionFormat = (inputExpression: string) => {
     let newExpression = inputExpression.replace(/(\d+)(?=[a-zA-Z][(])/g, "$1*");
     newExpression = newExpression.replace(/(\d+)([a-zA-Z])/g, "$1*$2");
     newExpression = newExpression.replace(/(\))(\()/g, "$1*$2");
+    newExpression = newExpression.replace(/(\d+)(\()/g, "$1*$2");
+    newExpression = newExpression.replace(/(\([^)]*\))([a-zA-Z])/g, "$1*$2");
+    newExpression = newExpression.replace(/\((\d+)\)(\d+)/g, "($1)*$2");
+    newExpression = newExpression.replace(/([a-zA-Z])\(/g, "$1*(");
+    newExpression = newExpression.replace(/([a-zA-Z])(\d+)/g, "$1*$2");
+    newExpression = newExpression.replace(/(\))(\d+)/g, "$1*$2");
     return newExpression;
   };
 
